@@ -51,7 +51,7 @@ const Portfolio = () => {
       title: "PhantomGate - Honeypot System",
       description: "A decoy admin login page built to trap intruders and log their credentials, IP address, and browser information. It redirects legitimate users to a secure subdomain.",
       icon: Lock,
-      tech: ["Flutter", "Node.js", "JavaScript", "GitHub Pages"],
+      tech: ["Node.js", "JavaScript", "GitHub Pages"],
       color: "cyber-danger"
     },
     {
@@ -75,7 +75,7 @@ const Portfolio = () => {
       title: "Student BioData Management",
       description: "Automates student biodata management, eliminating manual record-keeping with a comprehensive digital solution.",
       icon: Database,
-      tech: ["Flutter", "Firebase", "Node.js"],
+      tech: ["Java","JDBC","OracleDB","Java Swing"],
       color: "cyber-primary"
     },
     {
@@ -83,7 +83,7 @@ const Portfolio = () => {
       title: "Chat App",
       description: "Real-time chat application with modern UI and secure messaging capabilities.",
       icon: MessageCircle,
-      tech: ["Flutter", "Firebase", "Node.js"],
+      tech: ["Flutter", "Firebase"],
       color: "cyber-accent"
     },
     {
@@ -180,6 +180,17 @@ const Portfolio = () => {
             >
               <FileText className="mr-2 h-5 w-5" />
               View Resume
+            </Button>
+          </div>
+          <div>
+            {/* Add my personal website */}
+            <Button 
+              variant="link" 
+              size="lg" 
+              className="hover:underline"
+              onClick={() => window.open('https://axiviontech.com', '_blank')}
+            >
+              My Personal Website
             </Button>
           </div>
         </div>
