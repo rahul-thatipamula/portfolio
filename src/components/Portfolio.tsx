@@ -17,7 +17,7 @@ import {
   Calculator,
   ExternalLink
 } from "lucide-react";
-import profileImage from "@/assets/profile-image.jpg";
+import profileImage from "@/assets/profile-image.png";
 
 const Portfolio = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -126,12 +126,12 @@ const Portfolio = () => {
           }}
         />
         
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
+        <div className="relative z-10 max-w-6xl mx-auto text-center">
           <div className="mb-8 animate-float">
             <img 
               src={profileImage} 
               alt="Rahul Thatipamula" 
-              className="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto border-4 border-primary shadow-glow animate-pulse-glow"
+              className="w-32 h-42 md:w-40 md:h-70 rounded-full mx-auto border-4 border-primary shadow-glow animate-pulse-glow"
             />
           </div>
           
