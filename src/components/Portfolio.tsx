@@ -304,7 +304,7 @@ const Portfolio = () => {
               className="hover:text-primary hover:scale-110 transition-all"
               asChild
             >
-              <a href="mailto:rahulthatipamula97@gmail.com">
+              <a href="mailto:rahulthatipamula6@gmail.com">
                 <Mail className="h-6 w-6" />
                 <span className="sr-only">Email</span>
               </a>
