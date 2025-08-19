@@ -91,7 +91,7 @@ const Portfolio = () => {
       title: "Expense Tracker",
       description: "Helps users track expenses and categorize spending with intuitive analytics.",
       icon: Calculator,
-      tech: ["Flutter", "Firebase"],
+      tech: ["Flutter"],
       color: "cyber-warning"
     }
   ];
