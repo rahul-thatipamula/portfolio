@@ -62,14 +62,7 @@ const Portfolio = () => {
       tech: ["Flutter", "APKTool", "Metasploit", "Kali Linux", "msfvenom"],
       color: "cyber-success"
     },
-    {
-      id: 5,
-      title: "Ecommerce",
-      description: "A campus-based e-commerce app developed to provide students with a secure platform to buy and sell essentials. Features smooth UI and robust backend.",
-      icon: Store,
-      tech: ["Flutter", "SpringBoot", "MongoDB"],
-      color: "cyber-secondary"
-    },
+
     {
       id: 6,
       title: "Student BioData Management",
@@ -125,15 +118,15 @@ const Portfolio = () => {
                         radial-gradient(circle at 70% 60%, hsl(var(--cyber-secondary) / 0.1) 0%, transparent 70%)`
           }}
         />
-        
-        <div className="relative z-10 max-w-6xl mx-auto text-center">
-          <div className="mb-8 animate-float">
-            <img 
-              src={profileImage} 
-              alt="Rahul Thatipamula" 
-              className="w-32 h-42 md:w-40 md:h-70 rounded-full mx-auto border-4 border-primary shadow-glow animate-pulse-glow"
-            />
-          </div>
+       <div className="relative z-10 max-w-6xl mx-auto text-center">
+  <div className="mb-8 animate-float">
+    <img 
+      src={profileImage} 
+      alt="Rahul Thatipamula" 
+      className="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto border-4 border-primary shadow-glow animate-pulse-glow object-cover"
+    />
+  </div>
+
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
             Hi, I'm{" "}
