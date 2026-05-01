@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 export default {
-	darkMode: ["class"],
 	content: [
 		"./pages/**/*.{ts,tsx}",
 		"./components/**/*.{ts,tsx}",
@@ -18,6 +17,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -52,38 +54,6 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				cyber: {
-					primary: 'hsl(var(--cyber-primary))',
-					secondary: 'hsl(var(--cyber-secondary))',
-					accent: 'hsl(var(--cyber-accent))',
-					warning: 'hsl(var(--cyber-warning))',
-					success: 'hsl(var(--cyber-success))',
-					danger: 'hsl(var(--cyber-danger))'
-				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				}
-			},
-			backgroundImage: {
-				'gradient-primary': 'var(--gradient-primary)',
-				'gradient-secondary': 'var(--gradient-secondary)',
-				'gradient-accent': 'var(--gradient-accent)',
-				'gradient-glow': 'var(--gradient-glow)'
-			},
-			boxShadow: {
-				'glow': 'var(--shadow-glow)',
-				'card': 'var(--shadow-card)',
-				'elevated': 'var(--shadow-elevated)'
-			},
-			transitionTimingFunction: {
-				'bounce': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -92,29 +62,17 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'float': 'float 6s ease-in-out infinite',
-				'pulse-glow': 'pulse-glow 2s ease-in-out infinite alternate',
-				'fade-in': 'fade-in 0.6s ease-out',
-				'slide-up': 'slide-up 0.6s ease-out'
 			}
 		}
 	},
