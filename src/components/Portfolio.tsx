@@ -70,70 +70,49 @@ const projects = [
     id: 1,
     title: "CAX",
     subtitle: "Unified Student Engagement Platform",
-    tech: ["Flutter", "React", "Node.js", "Azure", "MongoDB"],
+    tech: ["Flutter", "Spring Boot", "MongoDB"],
     period: "Aug 2024 — Present",
     status: "active",
     playstore: "https://play.google.com/store/apps/details?id=com.axiviontech.cax",
     bullets: [
-      "Scalable cross-platform student platform enabling club, community, and society management, college event management, and peer-to-peer product exchange",
-      "Developing RESTful APIs using Node.js, deployed on Microsoft Azure with MongoDB, implementing JWT-based authentication and role-based access control for secure multi-user management",
+      "Building a cross-platform student platform for club management and college event management, owning everything from system design to deployment",
+      "Implemented secure user authentication with college email verification, deployed the backend on AWS, and published the app on the Google Play Store",
     ],
   },
   {
     id: 2,
     title: "Vortex Pay",
     subtitle: "Digital Wallet",
-    tech: ["Spring Boot", "ReactJS", "PostgreSQL", "JWT", "WebSocket"],
+    tech: ["Spring Boot", "Flutter", "PostgreSQL"],
     period: "Apr 2025 — May 2025",
     status: "completed",
     bullets: [
-      "Full-stack digital wallet with UPI-style transfers, QR payments, and real-time notifications using Spring Boot, React (Vite), and PostgreSQL with ACID-compliant transactions",
-      "Implemented pessimistic locking with ordered lock acquisition and retry mechanisms to handle concurrent transfers, ensuring zero data corruption under high concurrency",
+      "Built a full-stack digital wallet supporting UPI-style transfers, QR payments, and real-time notifications, backed by ACID-compliant transactions in PostgreSQL",
+      "Handled concurrent transfers using pessimistic locking with ordered lock acquisition and retries, preventing data corruption under high load",
     ],
   },
   {
     id: 3,
     title: "Student Bio Data",
-    subtitle: "Record Management System",
-    tech: ["Java", "Java Swing", "JDBC", "Oracle Database"],
+    subtitle: "Management System",
+    tech: ["Java", "JDBC", "PostgreSQL", "CLI"],
     period: "Jun 2024 — Jul 2024",
     status: "completed",
     bullets: [
-      "Desktop CRUD application built with Java Swing and JDBC connected to Oracle Database, replacing manual paperwork with digitized student record management",
-      "Supports add, update, search, and delete operations with comprehensive data validation and secure database connectivity",
+      "Built a CLI-based CRUD application in Java using JDBC and PostgreSQL, following a layered Model–DAO–Service architecture with parameterized queries to prevent SQL injection",
+      "Added search, email validation, delete confirmation, and automatic database setup on first run",
     ],
   },
 ];
 
 const skills = {
-  "Programming Languages": ["Java", "Dart", "JavaScript", "Python", "C"],
-  Frontend: ["HTML", "CSS", "ReactJS", "Flutter"],
-  "Backend & Databases": [
-    "Node.js",
-    "Express.js",
-    "Spring Boot",
-    "MongoDB",
-    "SQL",
-    "Oracle",
-    "RESTful API Design",
-  ],
-  "Tools & Concepts": [
-    "Git",
-    "Linux",
-    "Unix",
-    "Postman",
-    "PySpark",
-    "Power BI",
-    "Cybersecurity Fundamentals",
-  ],
+  "Programming Languages": ["Java", "Dart", "Python"],
+  Frontend: ["HTML", "CSS", "Flutter"],
+  "Backend & Databases": ["Spring Boot", "MongoDB", "SQL"],
+  "Tools & Concepts": ["Git", "PySpark", "Power BI"],
 };
 
 const certifications = [
-  {
-    title: "Hackathon Winner",
-    detail:
-      "Secured 1st place for best UI design at a university-level Flutter development workshop",
-  },
   {
     title: "App Publication",
     detail:
