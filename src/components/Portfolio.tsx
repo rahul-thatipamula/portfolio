@@ -372,11 +372,11 @@ const Portfolio = () => {
             titleAccent="background"
           />
 
-          <div className="grid md:grid-cols-2 gap-5">
+          <div className="divide-y divide-white/[0.06] md:divide-y-0 grid md:grid-cols-2 md:gap-5">
             {education.map((edu, index) => (
               <div
                 key={edu.id}
-                className={`fade-up fade-up-delay-${index + 1} card-surface h-full p-8 rounded-3xl`}
+                className={`fade-up fade-up-delay-${index + 1} card-surface h-full py-7 md:p-8 md:rounded-3xl`}
               >
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <h3 className="text-xl font-bold text-zinc-100 leading-snug">
@@ -482,11 +482,11 @@ const Portfolio = () => {
             titleAccent="work"
           />
 
-          <div className="space-y-5">
+          <div className="divide-y divide-white/[0.06] md:divide-y-0 md:space-y-5">
             {projects.map((project, index) => (
               <div
                 key={project.id}
-                className={`fade-up fade-up-delay-${index + 1} card-surface group p-8 md:p-10 rounded-3xl`}
+                className={`fade-up fade-up-delay-${index + 1} card-surface group py-8 md:p-10 md:rounded-3xl`}
               >
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-5">
                   <div>
@@ -592,11 +592,11 @@ const Portfolio = () => {
             titleAccent="awards"
           />
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="divide-y divide-white/[0.06] md:divide-y-0 grid md:grid-cols-2 lg:grid-cols-3 md:gap-4">
             {certifications.map((cert, index) => (
               <div
                 key={cert.title}
-                className={`fade-up fade-up-delay-${(index % 4) + 1} card-surface h-full p-7 rounded-3xl`}
+                className={`fade-up fade-up-delay-${(index % 4) + 1} card-surface h-full py-6 md:p-7 md:rounded-3xl`}
               >
                 <span className="font-mono-label text-[11px] text-amber-400/70 block mb-4">
                   {String(index + 1).padStart(2, "0")}
