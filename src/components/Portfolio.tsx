@@ -23,7 +23,7 @@ const education = [
     location: "Hyderabad, India",
     degree: "B.Tech, Computer Science and Engineering — Cybersecurity",
     period: "2022 — 2026",
-    gpa: "8.81 / 10.00",
+    gpa: "8.79 / 10.00",
   },
   {
     id: 2,
@@ -684,7 +684,7 @@ const Portfolio = () => {
                   label: "LeetCode",
                   href: "https://leetcode.com/rahul-thatipamula-19",
                 },
-                { label: "axiviontech.com", href: "https://axiviontech.com" },
+                { label: "caxone.in", href: "https://caxone.in" },
               ].map((link) => (
                 <a
                   key={link.label}
