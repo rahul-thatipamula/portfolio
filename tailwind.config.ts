@@ -21,6 +21,22 @@ export default {
 				sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
 			},
 			colors: {
+				canvas: 'rgb(var(--canvas) / <alpha-value>)',
+				surface: 'rgb(var(--surface) / <alpha-value>)',
+				'surface-2': 'rgb(var(--surface-2) / <alpha-value>)',
+				ink: {
+					DEFAULT: 'rgb(var(--ink) / <alpha-value>)',
+					soft: 'rgb(var(--ink-soft) / <alpha-value>)',
+					faint: 'rgb(var(--ink-faint) / <alpha-value>)',
+				},
+				line: 'rgb(var(--line) / <alpha-value>)',
+				brand: {
+					DEFAULT: 'rgb(var(--brand) / <alpha-value>)',
+					ink: 'rgb(var(--brand-ink) / <alpha-value>)',
+				},
+				ai: 'rgb(var(--ai) / <alpha-value>)',
+				live: 'rgb(var(--live) / <alpha-value>)',
+				warm: 'rgb(var(--warm) / <alpha-value>)',
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
