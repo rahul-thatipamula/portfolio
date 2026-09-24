@@ -1,23 +1,19 @@
-import { useEffect, useState, type ComponentType } from "react";
+import { useEffect, type ComponentType, type ReactNode } from "react";
 import {
-  Github,
   Linkedin,
   Mail,
   MapPin,
   Phone,
-  ArrowUpRight,
-  ArrowRight,
+  ChevronRight,
   Download,
   Sparkles,
   Server,
   Smartphone,
   ShieldCheck,
-  Sun,
-  Moon,
   GraduationCap,
   Award,
   Lock,
-  CornerDownLeft,
+  RotateCcw,
 } from "lucide-react";
 import profileImage from "@/assets/profile-image.png";
 
@@ -37,10 +33,10 @@ const links = {
 };
 
 const stats = [
-  { value: "100+", label: "users on CAX, live on the Play Store" },
-  { value: "2", label: "industry internships: Infosys & Rablo" },
-  { value: "8", label: "projects on this page, from AI agents to payments" },
-  { value: "8.79", label: "CGPA, B.Tech CSE (Cybersecurity)" },
+  { value: "100+", label: "users on CAX, live on Google Play" },
+  { value: "2", label: "internships, at Infosys and Rablo" },
+  { value: "8", label: "projects, from AI agents to payments" },
+  { value: "8.79", label: "CGPA in B.Tech CSE, Cybersecurity" },
 ];
 
 type Tone = "brand" | "ai" | "live" | "warm";
@@ -50,13 +46,6 @@ const toneText: Record<Tone, string> = {
   ai: "text-ai",
   live: "text-live",
   warm: "text-warm",
-};
-
-const toneChip: Record<Tone, string> = {
-  brand: "text-brand bg-brand/10 border-brand/20",
-  ai: "text-ai bg-ai/10 border-ai/20",
-  live: "text-live bg-live/10 border-live/20",
-  warm: "text-warm bg-warm/10 border-warm/20",
 };
 
 const capabilities: {
@@ -315,52 +304,64 @@ const navSections = [
   { id: "about", label: "Education" },
 ];
 
+const highlights = [
+  {
+    title: "Clean data in.",
+    body: "openFDA labels land untouched in staging tables, then get cleaned, chunked and embedded into pgvector with an HNSW index. Any transform bug can be replayed without re-fetching.",
+  },
+  {
+    title: "An agent that checks itself.",
+    body: "A LangGraph state machine routes, retrieves and answers with SQL-backed tools. A second model then verifies every cited claim, and anything unsupported triggers a rewrite and retry.",
+  },
+  {
+    title: "Data quality you can query.",
+    body: "Seven reconciliation checks per ingest run (counts, duplicates, nulls, orphans, oversize chunks) are stored as rows tied to a run ID, not buried in logs.",
+  },
+  {
+    title: "Measured, not guessed.",
+    body: "A 50-question evaluation set reports hit@5, MRR, latency and LLM-judged faithfulness. Unit tests cover chunking, parsing and routing with no network or database.",
+  },
+];
+
 /* ────────────────────────────────────────────
    Pieces
 ──────────────────────────────────────────── */
+
+const Section = ({
+  id,
+  muted = false,
+  children,
+}: {
+  id?: string;
+  muted?: boolean;
+  children: ReactNode;
+}) => (
+  <section
+    id={id}
+    className={`px-4 sm:px-6 py-20 md:py-28 ${muted ? "bg-surface-2" : "bg-canvas"}`}
+  >
+    <div className="max-w-[1024px] mx-auto">{children}</div>
+  </section>
+);
 
 const SectionHeader = ({
   eyebrow,
   title,
   intro,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   intro?: string;
 }) => (
-  <div className="fade-up mb-12 md:mb-14 max-w-2xl">
-    <p className="font-mono-label text-[12px] uppercase tracking-[0.2em] text-brand mb-4">
-      {eyebrow}
-    </p>
-    <h2 className="font-display text-3xl md:text-[2.75rem] leading-[1.1] font-bold text-ink">
+  <div className="fade-up text-center max-w-[720px] mx-auto mb-12 md:mb-16">
+    {eyebrow && <p className="eyebrow text-ink-soft mb-3">{eyebrow}</p>}
+    <h2 className="font-display text-[36px] md:text-[52px] leading-[1.08] font-semibold text-ink [text-wrap:balance]">
       {title}
     </h2>
     {intro && (
-      <p className="mt-4 text-[16px] md:text-[17px] text-ink-soft leading-relaxed">{intro}</p>
+      <p className="mt-5 text-[17px] md:text-[21px] leading-[1.45] text-ink-soft">{intro}</p>
     )}
   </div>
-);
-
-const Chip = ({ children }: { children: React.ReactNode }) => (
-  <span className="font-mono-label text-[11.5px] text-ink-soft bg-surface-2 border border-line px-2.5 py-1 rounded-md">
-    {children}
-  </span>
-);
-
-const Bullet = ({ children, tone = "brand" }: { children: React.ReactNode; tone?: Tone }) => (
-  <li className="flex gap-3 leading-relaxed">
-    <span
-      className={`mt-[10px] w-1.5 h-1.5 rounded-full shrink-0 ${
-        {
-          brand: "bg-brand",
-          ai: "bg-ai",
-          live: "bg-live",
-          warm: "bg-warm",
-        }[tone]
-      }`}
-    />
-    <span className="text-[15px] text-ink-soft">{children}</span>
-  </li>
 );
 
 const ExternalA = ({
@@ -369,7 +370,7 @@ const ExternalA = ({
   className = "",
 }: {
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }) => (
   <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
@@ -377,38 +378,27 @@ const ExternalA = ({
   </a>
 );
 
-const ThemeToggle = () => {
-  const [dark, setDark] = useState(false);
+const MoreLink = ({ href, children }: { href: string; children: ReactNode }) => (
+  <ExternalA href={href} className="link-more text-[17px]">
+    {children}
+    <ChevronRight className="w-4 h-4" />
+  </ExternalA>
+);
 
-  useEffect(() => {
-    const explicit = document.documentElement.dataset.theme;
-    setDark(
-      explicit ? explicit === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches
-    );
-  }, []);
+const TechLine = ({ items }: { items: string[] }) => (
+  <p className="text-[14px] text-ink-faint leading-relaxed">{items.join(" · ")}</p>
+);
 
-  const toggle = () => {
-    const next = dark ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    try {
-      localStorage.setItem("theme", next);
-    } catch {
-      /* storage unavailable — theme still applies for this visit */
-    }
-    setDark(!dark);
-  };
-
-  return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
-      className="w-9 h-9 rounded-full flex items-center justify-center text-ink-soft hover:text-ink hover:bg-surface-2 transition-colors"
-    >
-      {dark ? <Sun className="w-[18px] h-[18px]" /> : <Moon className="w-[18px] h-[18px]" />}
-    </button>
-  );
-};
+const Bullets = ({ items }: { items: string[] }) => (
+  <ul className="space-y-2.5">
+    {items.map((b) => (
+      <li key={b} className="flex gap-3 text-[15px] leading-[1.55] text-ink-soft">
+        <span className="mt-[9px] w-1 h-1 rounded-full bg-ink-faint shrink-0" />
+        <span>{b}</span>
+      </li>
+    ))}
+  </ul>
+);
 
 /* ────────────────────────────────────────────
    Portfolio
@@ -431,145 +421,92 @@ const Portfolio = () => {
   return (
     <div className="relative min-h-screen bg-canvas text-ink overflow-x-hidden">
       {/* ─── Nav ─── */}
-      <nav className="fixed top-0 inset-x-0 z-50 bg-canvas/80 backdrop-blur-xl border-b border-line/70">
-        <div className="max-w-[1120px] mx-auto px-4 sm:px-6 md:px-8 h-16 flex items-center justify-between gap-4">
-          <a href="#" className="flex items-center gap-2.5 shrink-0">
-            <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand to-ai text-white font-display font-bold text-[13px] flex items-center justify-center tracking-normal">
-              RT
-            </span>
-            <span className="font-display font-semibold text-[15px] text-ink tracking-tight hidden sm:inline">
-              Rahul Thatipamula
-            </span>
+      <nav className="fixed top-0 inset-x-0 z-50 bg-white/75 backdrop-blur-xl backdrop-saturate-150 border-b border-black/[0.08]">
+        <div className="max-w-[1024px] mx-auto px-4 sm:px-6 h-12 flex items-center justify-between gap-4">
+          <a href="#" className="text-[15px] font-semibold text-ink tracking-tight shrink-0">
+            Rahul Thatipamula
           </a>
-          <div className="hidden md:flex items-center gap-7">
+          <div className="hidden md:flex items-center gap-8">
             {navSections.map((s) => (
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className="text-[14px] font-medium text-ink-soft hover:text-ink transition-colors"
+                className="text-[12.5px] text-ink/80 hover:text-ink transition-colors"
               >
                 {s.label}
               </a>
             ))}
-          </div>
-          <div className="flex items-center gap-1.5">
-            <ThemeToggle />
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-ink text-canvas text-[13px] font-semibold hover:bg-brand hover:text-brand-ink transition-colors"
-            >
+            <a href="#contact" className="text-[12.5px] text-ink/80 hover:text-ink transition-colors">
               Contact
-              <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
           </div>
+          <ExternalA
+            href={links.resume}
+            className="inline-flex items-center rounded-full bg-brand text-brand-ink text-[12px] font-medium px-3.5 py-1 hover:bg-[#0077ed] transition-colors"
+          >
+            Résumé
+          </ExternalA>
         </div>
       </nav>
 
       {/* ─── Hero ─── */}
-      <header className="relative pt-16 overflow-hidden">
-        <div className="absolute inset-0 hero-backdrop pointer-events-none" />
-        <div className="absolute inset-0 hero-grid pointer-events-none" />
-
-        <div className="relative max-w-[1120px] mx-auto px-4 sm:px-6 md:px-8 pt-16 md:pt-24 pb-16">
-          <div className="grid lg:grid-cols-[1fr_auto] gap-12 lg:gap-16 items-center">
-            <div>
-              <div className="fade-up inline-flex items-center gap-2.5 pl-2.5 pr-3.5 py-1.5 rounded-full bg-surface border border-line text-[13px] text-ink-soft mb-8 shadow-sm">
-                <span className="pulse-dot w-2 h-2 rounded-full bg-live" />
-                Open to software engineering & AI engineering roles
-              </div>
-
-              <p className="fade-up fade-up-delay-1 font-mono-label text-[13px] text-ink-faint mb-4">
-                Rahul Thatipamula — Software Engineer
-              </p>
-
-              <h1 className="fade-up fade-up-delay-1 font-display text-[2.6rem] sm:text-[3.4rem] lg:text-[4.1rem] leading-[1.04] font-bold text-ink mb-7 max-w-[15ch]">
-                I build <span className="text-gradient">AI systems</span> and the software around them.
-              </h1>
-
-              <p className="fade-up fade-up-delay-2 text-[17px] md:text-[18px] text-ink-soft max-w-[58ch] leading-relaxed mb-9">
-                Full-stack engineer working across LLM applications, backend services and mobile.
-                Recently: a RAG agent that won't answer unless it can cite the source, a payments
-                backend that stays correct under concurrent load, and a student app live on the
-                Play Store. CS graduate specialising in cybersecurity, based in Hyderabad.
-              </p>
-
-              <div className="fade-up fade-up-delay-3 flex flex-wrap items-center gap-3">
-                <a
-                  href="#work"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-brand text-brand-ink text-[14px] font-semibold hover:opacity-90 shadow-[0_10px_30px_-12px_rgb(var(--brand)/0.7)] transition-opacity"
-                >
-                  See my work
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-                <ExternalA
-                  href={links.resume}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-surface border border-line text-ink text-[14px] font-semibold hover:border-ink/30 transition-colors"
-                >
-                  <Download className="w-4 h-4" />
-                  Résumé
-                </ExternalA>
-                <div className="flex items-center gap-0.5 ml-1">
-                  {[
-                    { href: links.github, icon: Github, label: "GitHub" },
-                    { href: links.linkedin, icon: Linkedin, label: "LinkedIn" },
-                    { href: `mailto:${EMAIL}`, icon: Mail, label: "Email" },
-                  ].map((l) => (
-                    <a
-                      key={l.label}
-                      href={l.href}
-                      target={l.href.startsWith("http") ? "_blank" : undefined}
-                      rel="noopener noreferrer"
-                      aria-label={l.label}
-                      className="w-11 h-11 rounded-full flex items-center justify-center text-ink-soft hover:text-brand hover:bg-surface transition-colors"
-                    >
-                      <l.icon className="w-[19px] h-[19px]" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Portrait */}
-            <div className="fade-up fade-up-delay-2 hidden lg:block relative">
-              <div className="absolute -inset-4 rounded-[2.25rem] bg-gradient-to-br from-brand/25 to-ai/25 blur-2xl" />
-              <div className="relative p-1.5 rounded-[2rem] bg-surface border border-line shadow-xl">
-                <img
-                  src={profileImage}
-                  alt="Portrait of Rahul Thatipamula"
-                  className="w-[280px] h-[340px] object-cover rounded-[1.6rem]"
-                />
-              </div>
-              <div className="absolute -left-10 bottom-16 card px-3.5 py-2.5 shadow-lg flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-md bg-ai/15 text-ai flex items-center justify-center">
-                  <Sparkles className="w-4 h-4" />
-                </span>
-                <span className="text-[12.5px] leading-tight">
-                  <span className="block font-semibold text-ink">PharmaDocs</span>
-                  <span className="text-ink-faint">RAG agent · just shipped</span>
-                </span>
-              </div>
-              <div className="absolute -right-6 top-10 card px-3.5 py-2.5 shadow-lg flex items-center gap-2.5">
-                <span className="w-7 h-7 rounded-md bg-live/15 text-live flex items-center justify-center">
-                  <Smartphone className="w-4 h-4" />
-                </span>
-                <span className="text-[12.5px] leading-tight">
-                  <span className="block font-semibold text-ink">CAX</span>
-                  <span className="text-ink-faint">100+ users</span>
-                </span>
-              </div>
-            </div>
+      <header className="relative px-4 sm:px-6 pt-28 md:pt-36 pb-16 md:pb-20 text-center">
+        <div className="max-w-[1024px] mx-auto">
+          <div className="fade-up flex justify-center mb-7">
+            <img
+              src={profileImage}
+              alt="Portrait of Rahul Thatipamula"
+              className="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover shadow-[0_12px_32px_-12px_rgb(0_0_0/0.35)] ring-4 ring-white"
+            />
           </div>
 
-          {/* Proof strip */}
-          <dl className="fade-up fade-up-delay-4 mt-16 md:mt-20 grid grid-cols-2 lg:grid-cols-4 rounded-2xl border border-line bg-surface/80 backdrop-blur divide-x divide-y lg:divide-y-0 divide-line overflow-hidden">
+          <div className="fade-up fade-up-delay-1 inline-flex items-center gap-2 text-[14px] text-ink-soft mb-5">
+            <span className="pulse-dot w-2 h-2 rounded-full bg-live" />
+            Open to software engineering & AI engineering roles
+          </div>
+
+          <p className="fade-up fade-up-delay-1 font-display text-[21px] md:text-[28px] font-semibold text-ink mb-2">
+            Rahul Thatipamula
+          </p>
+          <h1 className="fade-up fade-up-delay-2 font-display text-[44px] sm:text-[60px] md:text-[80px] leading-[1.04] font-semibold text-ink max-w-[900px] mx-auto [text-wrap:balance]">
+            AI systems. <span className="text-gradient">And the software around them.</span>
+          </h1>
+
+          <p className="fade-up fade-up-delay-3 mt-7 text-[19px] md:text-[23px] leading-[1.4] text-ink-soft max-w-[700px] mx-auto">
+            Software engineer building LLM applications, reliable backends and mobile apps
+            people actually use. Cybersecurity graduate, based in Hyderabad.
+          </p>
+
+          <div className="fade-up fade-up-delay-4 mt-10 flex flex-wrap items-center justify-center gap-4">
+            <a href="#work" className="btn-primary">
+              See my work
+            </a>
+            <ExternalA href={links.resume} className="btn-secondary">
+              <Download className="w-4 h-4" />
+              Download résumé
+            </ExternalA>
+          </div>
+          <div className="fade-up fade-up-delay-4 mt-6 flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
+            <MoreLink href={links.github}>GitHub</MoreLink>
+            <MoreLink href={links.linkedin}>LinkedIn</MoreLink>
+            <a href={`mailto:${EMAIL}`} className="link-more text-[17px]">
+              Email
+              <ChevronRight className="w-4 h-4" />
+            </a>
+          </div>
+
+          {/* Spec row */}
+          <dl className="fade-up mt-20 md:mt-24 pt-12 border-t border-line grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-6">
             {stats.map((s) => (
-              <div key={s.label} className="p-5 md:p-6">
+              <div key={s.label}>
                 <dt className="sr-only">{s.label}</dt>
                 <dd>
-                  <span className="block font-display text-3xl md:text-[2.1rem] font-bold text-ink mb-1">
+                  <span className="block font-display text-[40px] md:text-[48px] font-semibold text-ink leading-none mb-2">
                     {s.value}
                   </span>
-                  <span className="text-[13px] text-ink-soft leading-snug">{s.label}</span>
+                  <span className="block text-[14px] text-ink-soft leading-snug max-w-[200px] mx-auto">
+                    {s.label}
+                  </span>
                 </dd>
               </div>
             ))}
@@ -578,384 +515,310 @@ const Portfolio = () => {
       </header>
 
       {/* ─── What I do ─── */}
-      <section className="py-20 md:py-24 px-4 sm:px-6 md:px-8">
-        <div className="max-w-[1120px] mx-auto">
-          <SectionHeader
-            eyebrow="What I do"
-            title="One engineer, the whole stack, with AI where it earns its place."
-            intro="I'm most useful on products that need a model, a reliable backend and an app people actually open. Each area below links to work that backs it up."
-          />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {capabilities.map((c, i) => (
-              <div key={c.title} className={`fade-up fade-up-delay-${i + 1} card card-hover p-6 flex flex-col`}>
-                <span
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center mb-5 border ${toneChip[c.tone]}`}
-                >
-                  <c.icon className="w-5 h-5" />
-                </span>
-                <h3 className="font-display text-[18px] font-semibold text-ink mb-2 tracking-tight">
-                  {c.title}
-                </h3>
-                <p className="text-[14.5px] text-ink-soft leading-relaxed mb-5 flex-1">{c.body}</p>
-                <p className={`font-mono-label text-[11.5px] ${toneText[c.tone]}`}>↳ {c.proof}</p>
+      <Section muted>
+        <SectionHeader
+          eyebrow="What I do"
+          title="One engineer. The whole stack."
+          intro="With AI where it earns its place. Each area below points to the work that backs it up."
+        />
+        <div className="grid md:grid-cols-2 gap-5">
+          {capabilities.map((c, i) => (
+            <div key={c.title} className={`fade-up fade-up-delay-${(i % 2) + 1} tile p-8 md:p-10`}>
+              <c.icon className={`w-8 h-8 mb-6 ${toneText[c.tone]}`} />
+              <h3 className="font-display text-[24px] md:text-[28px] font-semibold text-ink mb-3">
+                {c.title}
+              </h3>
+              <p className="text-[17px] leading-[1.5] text-ink-soft mb-5">{c.body}</p>
+              <p className={`text-[14px] font-medium ${toneText[c.tone]}`}>Seen in {c.proof.replace(" · ", " and ")}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ─── Work ─── */}
+      <Section id="work">
+        <SectionHeader
+          eyebrow="Selected work"
+          title="Built end to end."
+          intro="For each project: the problem, what I built, and the parts that were actually hard."
+        />
+
+        {/* Featured: PharmaDocs */}
+        <article className="fade-up tile-muted px-6 py-12 md:px-14 md:py-16 mb-5">
+          <div className="text-center max-w-[720px] mx-auto">
+            <p className="eyebrow text-warm mb-3">New · {featured.kind}</p>
+            <h3 className="font-display text-[44px] md:text-[64px] leading-none font-semibold text-ink mb-4">
+              {featured.title}
+            </h3>
+            <p className="font-display text-[24px] md:text-[32px] leading-tight font-semibold text-gradient mb-6">
+              Every answer, cited. Or no answer at all.
+            </p>
+            <p className="text-[17px] md:text-[19px] leading-[1.5] text-ink-soft">{featured.pitch}</p>
+          </div>
+
+          {/* Pipeline */}
+          <div className="mt-12">
+            <p className="text-center eyebrow text-ink-soft mb-5">How a question flows</p>
+            <ol className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-2 md:gap-1.5">
+              {pipeline.map((p, i) => (
+                <li key={p.step} className="flex flex-col md:flex-row items-center gap-2 md:gap-1.5">
+                  <div
+                    className={`w-full md:w-[150px] md:h-[84px] flex flex-col justify-center bg-white rounded-2xl px-4 py-4 text-center shadow-[0_1px_2px_rgb(0_0_0/0.04)] ${
+                      i >= 3 ? "ring-1 ring-ai/30" : ""
+                    }`}
+                  >
+                    <span className="block text-[15px] font-semibold text-ink">{p.step}</span>
+                    <span className="block text-[12.5px] text-ink-soft mt-1">{p.detail}</span>
+                  </div>
+                  {i < pipeline.length - 1 && (
+                    <ChevronRight className="w-4 h-4 text-ink-faint rotate-90 md:rotate-0 shrink-0" />
+                  )}
+                </li>
+              ))}
+            </ol>
+            <p className="mt-5 flex items-center justify-center gap-2 text-[14px] text-ink-soft text-center">
+              <RotateCcw className="w-4 h-4 text-ai shrink-0" />
+              Unsupported claim? It rewrites the query and retrieves again, at most twice.
+            </p>
+          </div>
+
+          {/* Highlights */}
+          <div className="mt-12 grid md:grid-cols-2 gap-4">
+            {highlights.map((h) => (
+              <div key={h.title} className="bg-white rounded-[20px] p-6 md:p-7">
+                <h4 className="text-[19px] font-semibold text-ink mb-2">{h.title}</h4>
+                <p className="text-[15px] leading-[1.55] text-ink-soft">{h.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center space-y-3">
+            <TechLine items={featured.tech} />
+            <p className="inline-flex items-center gap-1.5 text-[14px] text-ink-soft">
+              <Lock className="w-3.5 h-3.5" />
+              Private repository. Happy to walk through the code in an interview.
+            </p>
+          </div>
+        </article>
+
+        {/* Project tiles */}
+        <div className="grid md:grid-cols-2 gap-5">
+          {projects.map((p, i) => (
+            <article
+              key={p.id}
+              className={`fade-up fade-up-delay-${(i % 2) + 1} tile-muted tile-hover p-8 md:p-10 flex flex-col`}
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <p className={`eyebrow ${toneText[p.tone]}`}>{p.kind}</p>
+                {p.status && (
+                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-ink-soft bg-white rounded-full px-2.5 py-1">
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${p.status === "Live" ? "bg-live" : "bg-warm"}`}
+                    />
+                    {p.status}
+                  </span>
+                )}
+              </div>
+              <h3 className="font-display text-[30px] md:text-[34px] leading-tight font-semibold text-ink mb-1">
+                {p.title}
+              </h3>
+              <p className="text-[13px] text-ink-faint mb-5">{p.period}</p>
+              <p className="text-[17px] leading-[1.5] text-ink mb-6">{p.pitch}</p>
+              <div className="flex-1 mb-6">
+                <Bullets items={p.bullets} />
+              </div>
+              <TechLine items={p.tech} />
+              {p.links && (
+                <div className="flex flex-wrap gap-x-6 gap-y-2 mt-5">
+                  {p.links.map((l) => (
+                    <MoreLink key={l.label} href={l.href}>
+                      {l.label}
+                    </MoreLink>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+
+        {/* Smaller builds */}
+        <div className="fade-up mt-16">
+          <h3 className="font-display text-[24px] md:text-[28px] font-semibold text-ink text-center mb-8">
+            Smaller builds, open source.
+          </h3>
+          <div className="grid md:grid-cols-3 gap-5">
+            {smallBuilds.map((b) => (
+              <div key={b.title} className="tile-muted p-7 flex flex-col">
+                <h4 className="text-[19px] font-semibold text-ink mb-2">{b.title}</h4>
+                <p className="text-[15px] leading-[1.55] text-ink-soft mb-4 flex-1">{b.body}</p>
+                <p className="text-[13px] text-ink-faint mb-4">{b.tech}</p>
+                <MoreLink href={b.href}>View on GitHub</MoreLink>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* ─── Work ─── */}
-      <section id="work" className="py-20 md:py-24 px-4 sm:px-6 md:px-8">
-        <div className="max-w-[1120px] mx-auto">
-          <SectionHeader
-            eyebrow="Selected work"
-            title="Projects, and the engineering decisions behind them."
-            intro="For each one: the problem, what I built, and the parts that were actually hard."
-          />
-
-          {/* Featured: PharmaDocs */}
-          <article className="fade-up relative card overflow-hidden mb-6">
-            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand to-ai" />
-            <div className="grid lg:grid-cols-[1.15fr_1fr]">
-              <div className="p-6 md:p-10">
-                <div className="flex flex-wrap items-center gap-2.5 mb-5">
-                  <span className={`font-mono-label text-[11px] uppercase tracking-[0.12em] px-2.5 py-1 rounded-md border ${toneChip.ai}`}>
-                    {featured.kind}
-                  </span>
-                  <span className="font-mono-label text-[11px] uppercase tracking-[0.12em] px-2.5 py-1 rounded-md border text-brand bg-brand/10 border-brand/20">
-                    Featured
-                  </span>
-                  <span className="font-mono-label text-[12px] text-ink-faint">{featured.period}</span>
-                </div>
-                <h3 className="font-display text-3xl md:text-4xl font-bold text-ink mb-4">
-                  {featured.title}
+      {/* ─── Experience ─── */}
+      <Section id="experience" muted>
+        <SectionHeader
+          eyebrow="Experience"
+          title="Where I've worked."
+          intro="Enterprise data engineering at Infosys. Shipping mobile features at a startup while leading its intern team."
+        />
+        <div className="space-y-5">
+          {experiences.map((exp, i) => (
+            <article
+              key={exp.id}
+              className={`fade-up fade-up-delay-${i + 1} tile p-8 md:p-10 grid md:grid-cols-[220px_1fr] gap-5 md:gap-10`}
+            >
+              <div>
+                <h3 className="font-display text-[28px] font-semibold text-ink leading-tight">
+                  {exp.company}
                 </h3>
-                <p className="text-[16px] md:text-[17px] text-ink leading-relaxed mb-7">
-                  {featured.pitch}
-                </p>
-                <ul className="space-y-3 mb-8">
-                  {featured.bullets.map((b) => (
-                    <Bullet key={b} tone="ai">
-                      {b}
-                    </Bullet>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {featured.tech.map((t) => (
-                    <Chip key={t}>{t}</Chip>
-                  ))}
-                </div>
-                <p className="inline-flex items-center gap-2 text-[13px] text-ink-faint">
-                  <Lock className="w-3.5 h-3.5" />
-                  Private repository. Happy to walk through the code in an interview.
+                <p className="text-[14px] text-ink-soft mt-2">{exp.period}</p>
+                <p className="flex items-center gap-1.5 text-[14px] text-ink-faint mt-1">
+                  <MapPin className="w-3.5 h-3.5" />
+                  {exp.location}
                 </p>
               </div>
-
-              {/* Architecture */}
-              <div className="bg-surface-2 border-t lg:border-t-0 lg:border-l border-line p-6 md:p-10 flex flex-col justify-center">
-                <p className="font-mono-label text-[11px] uppercase tracking-[0.18em] text-ink-faint mb-6">
-                  How a question flows
-                </p>
-                <ol className="relative space-y-3">
-                  {pipeline.map((p, i) => (
-                    <li key={p.step} className="relative flex items-center gap-4">
-                      <span
-                        className={`relative z-10 w-9 h-9 shrink-0 rounded-full flex items-center justify-center font-mono-label text-[12px] font-medium border ${
-                          i >= 3 ? toneChip.ai : toneChip.brand
-                        } bg-surface`}
-                      >
-                        {i + 1}
-                      </span>
-                      <div className="flex-1 card px-4 py-3 flex items-center justify-between gap-3">
-                        <span className="font-semibold text-[14.5px] text-ink">{p.step}</span>
-                        <span className="font-mono-label text-[11.5px] text-ink-faint text-right">
-                          {p.detail}
-                        </span>
-                      </div>
-                      {i < pipeline.length - 1 && (
-                        <span className="absolute left-[17px] top-9 h-3 w-px bg-line" />
-                      )}
-                    </li>
-                  ))}
-                </ol>
-                <div className="mt-5 flex items-start gap-3 rounded-xl border border-dashed border-ai/40 bg-ai/[0.06] px-4 py-3">
-                  <CornerDownLeft className="w-4 h-4 text-ai mt-0.5 shrink-0" />
-                  <p className="text-[13px] text-ink-soft leading-relaxed">
-                    <span className="font-semibold text-ink">Unsupported claim?</span> The agent
-                    rewrites the query and retrieves again, at most twice. It never returns an
-                    uncited answer.
-                  </p>
+              <div>
+                <p className="text-[19px] font-semibold text-ink mb-1">{exp.position}</p>
+                <p className="text-[17px] text-ink-soft mb-5">{exp.summary}</p>
+                <div className="mb-5">
+                  <Bullets items={exp.details} />
                 </div>
+                <TechLine items={exp.tech} />
+              </div>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      {/* ─── Skills ─── */}
+      <Section id="skills">
+        <SectionHeader
+          eyebrow="Toolkit"
+          title="What I work with."
+          intro="Every tool here has been used in a project or role on this page."
+        />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {skills.map((s, i) => (
+            <div
+              key={s.group}
+              className={`fade-up fade-up-delay-${(i % 3) + 1} tile-muted p-7 ${
+                i === 0 ? "lg:col-span-2 sm:col-span-2" : ""
+              }`}
+            >
+              <h3 className={`eyebrow mb-4 ${toneText[s.tone]}`}>{s.group}</h3>
+              <div className="flex flex-wrap gap-2">
+                {s.items.map((item) => (
+                  <span
+                    key={item}
+                    className="bg-white rounded-full px-3.5 py-1.5 text-[14px] text-ink"
+                  >
+                    {item}
+                  </span>
+                ))}
               </div>
             </div>
-          </article>
+          ))}
+        </div>
+      </Section>
 
-          {/* Project grid */}
-          <div className="grid md:grid-cols-2 gap-6">
-            {projects.map((p, i) => (
-              <article
-                key={p.id}
-                className={`fade-up fade-up-delay-${(i % 2) + 1} card card-hover p-6 md:p-8 flex flex-col`}
-              >
-                <div className="flex flex-wrap items-center gap-2.5 mb-4">
-                  <span
-                    className={`font-mono-label text-[11px] uppercase tracking-[0.12em] px-2.5 py-1 rounded-md border ${toneChip[p.tone]}`}
-                  >
-                    {p.kind}
-                  </span>
-                  {p.status && (
-                    <span className="inline-flex items-center gap-1.5 font-mono-label text-[11px] uppercase tracking-[0.12em] text-live">
-                      <span className="w-1.5 h-1.5 rounded-full bg-live" />
-                      {p.status}
-                    </span>
-                  )}
-                  <span className="font-mono-label text-[12px] text-ink-faint ml-auto">{p.period}</span>
-                </div>
-                <h3 className="font-display text-2xl font-bold text-ink mb-3">{p.title}</h3>
-                <p className="text-[15.5px] text-ink leading-relaxed mb-5">{p.pitch}</p>
-                <ul className="space-y-2.5 mb-6 flex-1">
-                  {p.bullets.map((b) => (
-                    <Bullet key={b} tone={p.tone}>
-                      {b}
-                    </Bullet>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {p.tech.map((t) => (
-                    <Chip key={t}>{t}</Chip>
-                  ))}
-                </div>
-                {p.links && (
-                  <div className="flex flex-wrap gap-5 pt-5 border-t border-line">
-                    {p.links.map((l) => (
-                      <ExternalA
-                        key={l.label}
-                        href={l.href}
-                        className="link-sweep inline-flex items-center gap-1 text-[14px] font-semibold text-brand"
-                      >
-                        {l.label}
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </ExternalA>
-                    ))}
-                  </div>
-                )}
-              </article>
-            ))}
-          </div>
-
-          {/* Smaller builds */}
-          <div className="fade-up mt-14">
-            <h3 className="font-mono-label text-[12px] uppercase tracking-[0.2em] text-ink-faint mb-5">
-              Smaller builds · open source
+      {/* ─── Education & certifications ─── */}
+      <Section id="about" muted>
+        <SectionHeader eyebrow="Background" title="Education & certifications." />
+        <div className="grid lg:grid-cols-2 gap-5">
+          <div className="fade-up tile p-8 md:p-10">
+            <h3 className="flex items-center gap-2 text-[19px] font-semibold text-ink mb-7">
+              <GraduationCap className="w-5 h-5 text-brand" /> Education
             </h3>
-            <div className="grid md:grid-cols-3 gap-4">
-              {smallBuilds.map((b) => (
-                <ExternalA
-                  key={b.title}
-                  href={b.href}
-                  className="group card card-hover p-5 flex flex-col"
-                >
-                  <span className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-[15.5px] text-ink">{b.title}</span>
-                    <Github className="w-4 h-4 text-ink-faint group-hover:text-brand transition-colors" />
-                  </span>
-                  <span className="text-[14px] text-ink-soft leading-relaxed mb-4 flex-1">{b.body}</span>
-                  <span className="font-mono-label text-[11.5px] text-ink-faint">{b.tech}</span>
-                </ExternalA>
+            <div className="space-y-7">
+              {education.map((e) => (
+                <div key={e.school}>
+                  <div className="flex justify-between items-baseline gap-4">
+                    <p className="text-[17px] font-semibold text-ink leading-snug">{e.school}</p>
+                    <span className="shrink-0 text-[15px] font-semibold text-brand">{e.score}</span>
+                  </div>
+                  <p className="text-[15px] text-ink-soft mt-1">{e.degree}</p>
+                  <p className="text-[13px] text-ink-faint mt-1.5">
+                    {e.period} · {e.location}
+                  </p>
+                </div>
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ─── Experience ─── */}
-      <section id="experience" className="py-20 md:py-24 px-4 sm:px-6 md:px-8 bg-surface-2/60 border-y border-line">
-        <div className="max-w-[1120px] mx-auto">
-          <SectionHeader
-            eyebrow="Experience"
-            title="Where I've worked."
-            intro="Enterprise data engineering at Infosys, and shipping mobile features at a startup while leading its intern team."
-          />
-          <div className="space-y-5">
-            {experiences.map((exp, i) => (
-              <article
-                key={exp.id}
-                className={`fade-up fade-up-delay-${i + 1} card p-6 md:p-8 grid md:grid-cols-[220px_1fr] gap-4 md:gap-10`}
-              >
-                <div>
-                  <ExternalA
-                    href={exp.companyUrl}
-                    className="link-sweep inline-flex items-center gap-1 font-display text-xl font-bold text-ink hover:text-brand transition-colors"
-                  >
-                    {exp.company}
-                    <ArrowUpRight className="w-4 h-4" />
-                  </ExternalA>
-                  <p className="font-mono-label text-[12px] text-ink-faint mt-2">{exp.period}</p>
-                  <p className="flex items-center gap-1.5 text-[13px] text-ink-faint mt-1">
-                    <MapPin className="w-3.5 h-3.5" />
-                    {exp.location}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-[17px] font-semibold text-ink mb-1.5">{exp.position}</h3>
-                  <p className="text-[15px] text-ink-soft mb-4">{exp.summary}</p>
-                  <ul className="space-y-2.5 mb-5">
-                    {exp.details.map((d) => (
-                      <Bullet key={d}>{d}</Bullet>
-                    ))}
-                  </ul>
-                  <div className="flex flex-wrap gap-2">
-                    {exp.tech.map((t) => (
-                      <Chip key={t}>{t}</Chip>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Skills ─── */}
-      <section id="skills" className="py-20 md:py-24 px-4 sm:px-6 md:px-8">
-        <div className="max-w-[1120px] mx-auto">
-          <SectionHeader
-            eyebrow="Toolkit"
-            title="What I work with."
-            intro="Every tool here has been used in a project or role on this page, not just in a tutorial."
-          />
-          <div className="fade-up card divide-y divide-line">
-            {skills.map((s) => (
-              <div
-                key={s.group}
-                className="grid md:grid-cols-[200px_1fr] gap-3 md:gap-8 px-5 md:px-8 py-5 md:py-6 items-baseline"
-              >
-                <h3 className={`font-mono-label text-[12px] uppercase tracking-[0.16em] ${toneText[s.tone]}`}>
-                  {s.group}
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {s.items.map((item) => (
-                    <span
-                      key={item}
-                      className="px-3 py-1.5 rounded-lg bg-surface-2 border border-line text-ink text-[13.5px] font-medium"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Education & certifications ─── */}
-      <section id="about" className="py-20 md:py-24 px-4 sm:px-6 md:px-8">
-        <div className="max-w-[1120px] mx-auto">
-          <SectionHeader eyebrow="Background" title="Education & certifications." />
-          <div className="grid lg:grid-cols-2 gap-6">
-            <div className="fade-up card p-6 md:p-8">
-              <h3 className="flex items-center gap-2 font-semibold text-ink mb-6">
-                <GraduationCap className="w-5 h-5 text-brand" /> Education
-              </h3>
-              <div className="space-y-6">
-                {education.map((e) => (
-                  <div key={e.school} className="flex justify-between gap-4">
-                    <div>
-                      <p className="font-semibold text-[15.5px] text-ink leading-snug">{e.school}</p>
-                      <p className="text-[14px] text-ink-soft mt-1">{e.degree}</p>
-                      <p className="font-mono-label text-[12px] text-ink-faint mt-2">
-                        {e.period} · {e.location}
-                      </p>
-                    </div>
-                    <span className="shrink-0 self-start font-mono-label text-[12px] font-medium text-brand bg-brand/10 border border-brand/20 px-2.5 py-1 rounded-md">
-                      {e.score}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="fade-up fade-up-delay-1 card p-6 md:p-8">
-              <h3 className="flex items-center gap-2 font-semibold text-ink mb-6">
-                <Award className="w-5 h-5 text-warm" /> Certifications
-              </h3>
-              <ul className="space-y-4">
-                {certifications.map((c) => (
-                  <li key={c.title} className="flex justify-between gap-4 items-baseline">
-                    <span className="text-[14.5px] text-ink leading-snug">{c.title}</span>
-                    <span className="shrink-0 font-mono-label text-[11.5px] text-ink-faint">{c.issuer}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-6 pt-5 border-t border-line flex flex-wrap gap-5">
-                <ExternalA href={links.leetcode} className="link-sweep inline-flex items-center gap-1 text-[14px] font-semibold text-brand">
-                  LeetCode <ArrowUpRight className="w-3.5 h-3.5" />
-                </ExternalA>
-                <ExternalA href={links.hackerrank} className="link-sweep inline-flex items-center gap-1 text-[14px] font-semibold text-brand">
-                  HackerRank <ArrowUpRight className="w-3.5 h-3.5" />
-                </ExternalA>
-              </div>
+          <div className="fade-up fade-up-delay-1 tile p-8 md:p-10">
+            <h3 className="flex items-center gap-2 text-[19px] font-semibold text-ink mb-7">
+              <Award className="w-5 h-5 text-warm" /> Certifications
+            </h3>
+            <ul className="divide-y divide-line">
+              {certifications.map((c) => (
+                <li key={c.title} className="py-3.5 first:pt-0">
+                  <p className="text-[15px] text-ink leading-snug">{c.title}</p>
+                  <p className="text-[13px] text-ink-faint mt-1">{c.issuer}</p>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
+              <MoreLink href={links.leetcode}>LeetCode</MoreLink>
+              <MoreLink href={links.hackerrank}>HackerRank</MoreLink>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* ─── Contact ─── */}
-      <footer id="contact" className="px-4 sm:px-6 md:px-8 pb-10">
-        <div className="max-w-[1120px] mx-auto">
-          <div className="fade-up relative overflow-hidden rounded-3xl bg-ink text-canvas px-6 py-14 md:px-14 md:py-20">
-            <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-brand/40 blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-28 -left-16 w-72 h-72 rounded-full bg-ai/30 blur-3xl pointer-events-none" />
-            <div className="relative max-w-2xl">
-              <p className="font-mono-label text-[12px] uppercase tracking-[0.2em] opacity-70 mb-5">
-                Contact
-              </p>
-              <h2 className="font-display text-4xl md:text-[3.4rem] leading-[1.05] font-bold mb-6">
-                Hiring for backend, full-stack or AI engineering? Let's talk.
-              </h2>
-              <p className="text-[16px] md:text-[17px] opacity-80 leading-relaxed mb-10">
-                I'm looking for a team that ships real products and cares how they're built.
-                Email is the fastest way to reach me.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href={`mailto:${EMAIL}`}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-canvas text-ink text-[14px] font-semibold hover:opacity-90 transition-opacity"
-                >
-                  <Mail className="w-4 h-4" />
-                  {EMAIL}
-                </a>
-                <ExternalA
-                  href={links.linkedin}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-canvas/25 text-[14px] font-semibold hover:border-canvas/60 transition-colors"
-                >
-                  <Linkedin className="w-4 h-4" />
-                  LinkedIn
-                </ExternalA>
-                <ExternalA
-                  href={links.github}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-canvas/25 text-[14px] font-semibold hover:border-canvas/60 transition-colors"
-                >
-                  <Github className="w-4 h-4" />
-                  GitHub
-                </ExternalA>
-              </div>
-              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono-label text-[12.5px] opacity-70">
-                <span className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5" /> {PHONE}
-                </span>
-                <span className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5" /> Hyderabad, India
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 text-[13px] text-ink-faint">
-            <span>© 2026 Rahul Thatipamula</span>
-            <a href="#" className="hover:text-ink transition-colors">
-              Back to top ↑
+      <section id="contact" className="px-4 sm:px-6 py-24 md:py-32 text-center">
+        <div className="fade-up max-w-[760px] mx-auto">
+          <p className="eyebrow text-ink-soft mb-3">Contact</p>
+          <h2 className="font-display text-[40px] md:text-[64px] leading-[1.05] font-semibold text-ink mb-6">
+            Let's build something <span className="text-gradient">worth shipping.</span>
+          </h2>
+          <p className="text-[19px] md:text-[21px] leading-[1.45] text-ink-soft mb-10">
+            Hiring for backend, full-stack or AI engineering? I'm looking for a team that ships
+            real products and cares how they're built. Email is the fastest way to reach me.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <a href={`mailto:${EMAIL}`} className="btn-primary">
+              <Mail className="w-4 h-4" />
+              Email me
             </a>
+            <ExternalA href={links.linkedin} className="btn-secondary">
+              <Linkedin className="w-4 h-4" />
+              Connect on LinkedIn
+            </ExternalA>
+          </div>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[14px] text-ink-soft">
+            <span className="flex items-center gap-1.5">
+              <Mail className="w-3.5 h-3.5" /> {EMAIL}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Phone className="w-3.5 h-3.5" /> {PHONE}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5" /> Hyderabad, India
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Footer ─── */}
+      <footer className="bg-surface-2 px-4 sm:px-6">
+        <div className="max-w-[1024px] mx-auto py-5 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-ink-soft">
+          <span>Copyright © 2026 Rahul Thatipamula. All rights reserved.</span>
+          <div className="flex items-center divide-x divide-line">
+            {[
+              { label: "GitHub", href: links.github },
+              { label: "LinkedIn", href: links.linkedin },
+              { label: "LeetCode", href: links.leetcode },
+              { label: "HackerRank", href: links.hackerrank },
+            ].map((l) => (
+              <ExternalA key={l.label} href={l.href} className="px-3 first:pl-0 last:pr-0 hover:text-ink hover:underline">
+                {l.label}
+              </ExternalA>
+            ))}
           </div>
         </div>
       </footer>

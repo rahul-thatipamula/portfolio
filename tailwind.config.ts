@@ -34,6 +34,7 @@ export default {
 					DEFAULT: 'rgb(var(--brand) / <alpha-value>)',
 					ink: 'rgb(var(--brand-ink) / <alpha-value>)',
 				},
+				link: 'rgb(var(--link) / <alpha-value>)',
 				ai: 'rgb(var(--ai) / <alpha-value>)',
 				live: 'rgb(var(--live) / <alpha-value>)',
 				warm: 'rgb(var(--warm) / <alpha-value>)',
